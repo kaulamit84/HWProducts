@@ -1,4 +1,5 @@
 ﻿using HWProducts.Core.Model;
+using HWProducts.Core.ViewModel;
 using HWProducts.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace HWProducts.WebUI.Controllers
     public class ProductManagerController : Controller
     {
         ProductRepository context;
+        ProductCategoryRepository productCategories;
 
         public ProductManagerController()
         {
             context = new ProductRepository();
+            productCategories = new ProductCategoryRepository();
         }
 
         // GET: Products
@@ -29,8 +32,11 @@ namespace HWProducts.WebUI.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            //Product product = new Product();
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product = new Product();
+            viewModel.ProductCategories = productCategories.Collection();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -62,7 +68,10 @@ namespace HWProducts.WebUI.Controllers
             }
             else
             {
-                return View(product);
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = product;
+                viewModel.ProductCategories = productCategories.Collection();
+                return View(viewModel);                
             }            
         }
 
