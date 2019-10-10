@@ -8,72 +8,72 @@ using System.Web.Mvc;
 
 namespace HWProducts.WebUI.Controllers
 {
-    public class ProductManagerController : Controller
-    {
-        ProductRepository context;
+    public class ProductCategoryManagerController : Controller
+    {     
+        ProductCategoryRepository context;
 
-        public ProductManagerController()
+        public ProductCategoryManagerController()
         {
-            context = new ProductRepository();
+            context = new ProductCategoryRepository();
         }
 
         // GET: Products
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
-            return View(products);
+            List<ProductCategory> productCategories = context.Collection().ToList();
+            return View(productCategories);
         }
 
 
-        // CREATE: Product
+        // CREATE: ProductCategory
         [HttpGet]
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            ProductCategory productCat = new ProductCategory();
+            return View(productCat);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public ActionResult Create(ProductCategory productCat)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View(product);
+                return View(productCat);
             }
             else
             {
-                context.Insert(product);
+                context.Insert(productCat);
                 context.Commit();
                 return RedirectToAction("Index");
             }
-            
+
         }
 
 
-        // EDIT: Product
+        // EDIT: ProductCategory
         [HttpGet]
         public ActionResult Edit(string Id)
         {
-            Product product = context.Find(Id);
-            if(product == null)
+            ProductCategory productCat = context.Find(Id);
+            if (productCat == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                return View(product);
-            }            
+                return View(productCat);
+            }
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product product, string Id)
+        public ActionResult Edit(ProductCategory productCat, string Id)
         {
-            Product productToEdit = context.Find(Id);
-            
-            if (productToEdit == null)
+            ProductCategory productCatToEdit = context.Find(Id);
+
+            if (productCatToEdit == null)
             {
                 return HttpNotFound();
             }
@@ -81,32 +81,28 @@ namespace HWProducts.WebUI.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(product);
+                    return View(productCat);
                 }
-
-                productToEdit.Category = product.Category;
-                productToEdit.Description = product.Description;
-                productToEdit.Name = product.Name;
-                productToEdit.Price = product.Price;  
                 
+                productCatToEdit.Category = productCat.Category;              
                 context.Commit();
                 return RedirectToAction("Index");
             }
         }
 
 
-        //DELETE: Product
+        //DELETE: ProductCategory
         [HttpGet]
         public ActionResult Delete(string Id)
         {
-            Product productToDelete = context.Find(Id);
-            if (productToDelete == null)
+            ProductCategory productCatToDelete = context.Find(Id);
+            if (productCatToDelete == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                return View(productToDelete);
+                return View(productCatToDelete);
             }
         }
 
@@ -116,7 +112,7 @@ namespace HWProducts.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string Id)
         {
-            Product productToDelete = context.Find(Id);
+            ProductCategory productToDelete = context.Find(Id);
 
             if (productToDelete == null)
             {
@@ -129,7 +125,6 @@ namespace HWProducts.WebUI.Controllers
                 return RedirectToAction("Index");
             }
         }
-
 
     }
 }

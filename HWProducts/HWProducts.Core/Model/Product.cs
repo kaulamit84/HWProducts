@@ -14,13 +14,25 @@ namespace HWProducts.Core.Model
 
         [StringLength(20)]
         [DisplayName("Product Name")]
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Description { get; set; }
 
         [Range(0,1000)]
+        [Required]
         public decimal Price { get; set; }
+
+        [Required]
         public string Category { get; set; }
         public string Image { get; set; }
+
+
+        public Product()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
 
     }
 }
