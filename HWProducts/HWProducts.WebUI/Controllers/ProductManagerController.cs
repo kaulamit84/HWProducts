@@ -1,4 +1,5 @@
-﻿using HWProducts.Core.Model;
+﻿using HWProducts.Core.Contracts;
+using HWProducts.Core.Model;
 using HWProducts.Core.ViewModel;
 using HWProducts.DataAccess.InMemory;
 using System;
@@ -11,19 +12,19 @@ namespace HWProducts.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        ProductRepository context;
-        ProductCategoryRepository productCategories;
+        IRepository<Product> context;
+        IRepository<ProductCategory> productCategories;
 
-        public ProductManagerController()
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoryContext)
         {
-            context = new ProductRepository();
-            productCategories = new ProductCategoryRepository();
+            context = productContext;
+            productCategories = productCategoryContext;
         }
 
         // GET: Products
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
+          List<Product> products = context.Collection().ToList();
             return View(products);
         }
 

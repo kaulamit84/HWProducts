@@ -7,16 +7,9 @@ using System.Threading.Tasks;
 
 namespace HWProducts.Core.Model
 {
-    public class ProductCategory
-    {
-        public string Id { get; set; }
-        
+    public class ProductCategory : BaseEntity
+    {        
         [Required]
-        public string Category { get; set; }
-
-        public ProductCategory()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public string Category { get; set; }        
     }
 }
